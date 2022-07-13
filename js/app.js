@@ -13,20 +13,26 @@ const navItemsArr = ["section 1", "section 2", "section 3", "section 4"];
  */
 // edit the css style in the css file.
 window.addEventListener("load", () => {
-  const Navbar = document.createElement("nav");
-  document.body.append(Navbar);
-  const ulUnorderList = document.createElement("ul");
-  Navbar.appendChild(ulUnorderList);
+  // create navbar , ul elements and append them in body & navbar
+  const navbar = document.createElement("nav");
+  document.body.append(navbar);
+  const unorderList = document.createElement("ul");
+  navbar.appendChild(unorderList);
+  // create li elements
   for (let index = 0; index < navItemsArr.length; index++) {
     const el = document.createElement("li");
     el.innerHTML = navItemsArr[index];
+    // set id & class attr in li elements
     el.setAttribute("id", navItemsArr[index]);
     el.setAttribute("class", "navItem");
+    // add active class to first element in li elements
     const firstListItemElement = document.getElementsByClassName("navItem")[0];
     firstListItemElement?.classList.add("active");
-    ulUnorderList.appendChild(el);
+    // append li elements in ul element
+    unorderList.appendChild(el);
   }
-  let navItems = document.querySelectorAll(".navItem");
+  // function of toggle active class between li elements
+  const navItems = document.querySelectorAll(".navItem");
   navItems.forEach((el) => {
     el.addEventListener("click", () => {
       document.querySelector(".active").classList.remove("active");
