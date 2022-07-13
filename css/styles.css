@@ -1,0 +1,28 @@
+body {
+  margin: 0;
+  background-color: #000034;
+}
+nav {
+  display: flex;
+  justify-content: end;
+  width: 100%;
+  background-color: #fff;
+}
+nav ul {
+  display: flex;
+  padding: 0 1rem;
+}
+nav ul li {
+    list-style: none;
+    color: rgb(113, 113, 113);
+    padding: 1rem;
+    font-size: 1.3em;
+    font-weight: 500;
+    cursor: pointer;
+}
+nav ul li.active {
+    color: #000034;
+}
+/*
+
+*/
