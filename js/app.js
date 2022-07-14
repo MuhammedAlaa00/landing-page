@@ -37,9 +37,49 @@ window.addEventListener("load", () => {
     el.addEventListener("click", () => {
       document.querySelector(".active").classList.remove("active");
       el.classList.add("active");
+      console.log(el.getAttribute("id"));
+      const targetIdattr = el?.getAttribute("id");
+      const targetEl = document?.querySelector(
+        `[data-scroll = "${targetIdattr}"]`
+      );
+      targetEl.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+        top: "50px",
+      });
     });
   });
 });
 /**
  * End of Create Navigation Element function
  */
+/**
+ * Start of create the sections elements
+ */
+window.addEventListener("load", () => {
+  const mainContainer = document.createElement("div");
+  document.body.append(mainContainer);
+  for (let index = 0; index < navItemsArr.length; index++) {
+    const sectionel = document.createElement("section");
+    mainContainer.appendChild(sectionel);
+    sectionel.innerHTML = navItemsArr[index];
+    sectionel.setAttribute("class", "section");
+    sectionel.setAttribute("data-scroll", navItemsArr[index]);
+  }
+});
+/**
+ * End of create the sections elements
+ */
+/**
+ * Add class fixed to the navbar and remove it
+ */
+window.addEventListener("scroll", ()=> {
+  if(window.pageYOffset > 100) {
+    console.log("more than 60 px");
+    document.getElementsByTagName("nav")[0].classList.add("fixed");
+  }
+  else {
+    document.getElementsByTagName("nav")[0].classList.remove("fixed");
+  }
+})
+
