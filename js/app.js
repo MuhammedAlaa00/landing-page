@@ -1,43 +1,16 @@
+/* global document, window */
 /**
- * landing page project.
+ * Description for The Landing Page
  */
+/** @global sections array */
+const navItemsArray = ["section 1", "section 2", "section 3", "section 4"];
 /**
- * Start of Global Variables
+ * @event click => toggle between the navItems to add & remove active class & scroll to each element data-scroll attribute matches the navItem id
  */
-const navItemsArr = ["section 1", "section 2", "section 3", "section 4"];
-/**
- * End of Global Variables
- */
-/**
- * Start of Create Navigation Element function
- */
-// edit the css style in the css file.
-window.addEventListener("load", () => {
-  // create navbar , ul elements and append them in body & navbar
-  const navbar = document.createElement("nav");
-  document.body.append(navbar);
-  const unorderList = document.createElement("ul");
-  navbar.appendChild(unorderList);
-  // create li elements
-  for (let index = 0; index < navItemsArr.length; index++) {
-    const el = document.createElement("li");
-    el.innerHTML = navItemsArr[index];
-    // set id & class attr in li elements
-    el.setAttribute("id", navItemsArr[index]);
-    el.setAttribute("class", "navItem");
-    // add active class to first element in li elements
-    const firstListItemElement = document.getElementsByClassName("navItem")[0];
-    firstListItemElement?.classList.add("active");
-    // append li elements in ul element
-    unorderList.appendChild(el);
-  }
-  // function of toggle active class between li elements
+const ScrolltoElement = () => {
   const navItems = document.querySelectorAll(".navItem");
   navItems.forEach((el) => {
     el.addEventListener("click", () => {
-      document.querySelector(".active").classList.remove("active");
-      el.classList.add("active");
-      console.log(el.getAttribute("id"));
       const targetIdattr = el?.getAttribute("id");
       const targetEl = document?.querySelector(
         `[data-scroll = "${targetIdattr}"]`
@@ -49,37 +22,87 @@ window.addEventListener("load", () => {
       });
     });
   });
-});
-/**
- * End of Create Navigation Element function
- */
-/**
- * Start of create the sections elements
- */
-window.addEventListener("load", () => {
+};
+const createNavbar = () => {
+  const navbar = document.createElement("nav");
+  document.body.append(navbar);
+  const unorderList = document.createElement("ul");
+  navbar.appendChild(unorderList);
+  for (let index = 0; index < navItemsArray.length; index++) {
+    const el = document.createElement("li");
+    el.innerHTML = navItemsArray[index];
+    el.setAttribute("id", navItemsArray[index]);
+    el.setAttribute("class", "navItem");
+    const firstListItemElement = document.getElementsByClassName("navItem")[0];
+    firstListItemElement?.classList.add("active");
+    unorderList.appendChild(el);
+    ScrolltoElement();
+  }
+};
+const createSections = () => {
   const mainContainer = document.createElement("div");
   document.body.append(mainContainer);
-  for (let index = 0; index < navItemsArr.length; index++) {
+  for (let index = 0; index < navItemsArray.length; index++) {
     const sectionel = document.createElement("section");
     mainContainer.appendChild(sectionel);
-    sectionel.innerHTML = navItemsArr[index];
+    sectionel.innerHTML = navItemsArray[index];
+    const bodyHeight = window.innerHeight;
+    sectionel.style.height = `${bodyHeight - 100}px`;
     sectionel.setAttribute("class", "section");
-    sectionel.setAttribute("data-scroll", navItemsArr[index]);
+    sectionel.setAttribute("data-scroll", navItemsArray[index]);
   }
+};
+/**
+ * function check if the section In viewport add to the navItem which matches same index active class
+ */
+const addClassActiveToNavItem = () => {
+  const sectionsEl = document.querySelectorAll(".section");
+  for (const [index, section] of sectionsEl.entries()) {
+    /**
+     * @param {htmlElement} element individual section from the sections
+     * @returns {boolean} if element in viewport true : false
+     */
+    function isInViewport(element) {
+      let rect = element.getBoundingClientRect();
+      return (
+        rect.top >= 0 &&
+        rect.left >= 0 &&
+        rect.bottom - 100 <= window.innerHeight &&
+        rect.right <= window.innerWidth
+      );
+    }
+    if (isInViewport(section)) {
+      const links = document.querySelectorAll(".navItem");
+      links.forEach((link) => link.classList.remove("active"));
+      links[index].classList.add("active");
+    }
+  }
+};
+/**
+ * check if the pageoffset > 100 add class fixed to the navbar else remove it.
+ */
+const checkPageYoffSet = () => {
+  const element = document.querySelector("nav");
+  // console.log(element.style)
+  const elementOffset = document.querySelector("nav").offsetTop;
+  if (window.pageYOffset > elementOffset) {
+    element.classList.add("fixed");
+  } else {
+    element.classList.remove("fixed");
+  }
+};
+/**
+ * @event load => create the sections elements in the Dom
+ * @event load => create the navbar and the navitems
+ */
+window.addEventListener("load", () => {
+  createNavbar();
+  createSections();
 });
 /**
- * End of create the sections elements
+ * @event scroll => toggle between the fixed class on the navbar to change the style of it
  */
-/**
- * Add class fixed to the navbar and remove it
- */
-window.addEventListener("scroll", ()=> {
-  if(window.pageYOffset > 100) {
-    console.log("more than 60 px");
-    document.getElementsByTagName("nav")[0].classList.add("fixed");
-  }
-  else {
-    document.getElementsByTagName("nav")[0].classList.remove("fixed");
-  }
-})
-
+window.addEventListener("scroll", () => {
+  addClassActiveToNavItem();
+  checkPageYoffSet();
+});
