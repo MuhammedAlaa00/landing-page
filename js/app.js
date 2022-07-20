@@ -81,14 +81,18 @@ const addClassActiveToNavItem = () => {
 /**
  * check if the pageoffset > 100 add class fixed to the navbar else remove it.
  */
-const checkPageYoffSet = () => {
+const checkPageYoffSetToAddclassFixed = () => {
   const element = document.querySelector("nav");
   // console.log(element.style)
-  const elementOffset = document.querySelector("nav").offsetTop;
-  if (window.pageYOffset > elementOffset) {
+  const elementOffset = document.querySelector("nav").offsetHeight;
+  if (window.scrollY > 50) {
+    console.log("here is fixed");
     element.classList.add("fixed");
+    document.body.style.paddingTop = elementOffset + "px";
   } else {
+    console.log("here is not fixed");
     element.classList.remove("fixed");
+    document.body.style.paddingTop = "0";
   }
 };
 /**
@@ -104,5 +108,5 @@ window.addEventListener("load", () => {
  */
 window.addEventListener("scroll", () => {
   addClassActiveToNavItem();
-  checkPageYoffSet();
+  checkPageYoffSetToAddclassFixed();
 });
