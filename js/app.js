@@ -3,10 +3,39 @@
  * Description for The Landing Page
  */
 /** @global sections array */
-const navItemsArray = ["section 1", "section 2", "section 3", "section 4"];
+const sections = ["section 1", "section 2", "section 3", "section 4", "section 5", "section 6"];
 /**
  * @event click => toggle between the navItems to add & remove active class & scroll to each element data-scroll attribute matches the navItem id
  */
+const createSections = () => {
+  const mainContainer = document.createElement("div");
+  document.body.append(mainContainer);
+  for (let index = 0; index < sections.length; index++) {
+    const sectionel = document.createElement("section");
+    mainContainer.appendChild(sectionel);
+    sectionel.innerHTML = sections[index];
+    const bodyHeight = window.innerHeight;
+    sectionel.style.height = `${bodyHeight}px`;
+    sectionel.setAttribute("class", "section");
+    sectionel.setAttribute("data-scroll", sections[index]);
+  }
+};
+const createNavbar = () => {
+  const navbar = document.createElement("nav");
+  document.body.append(navbar);
+  const unorderList = document.createElement("ul");
+  navbar.appendChild(unorderList);
+  for (let index = 0; index < sections.length; index++) {
+    const el = document.createElement("li");
+    el.innerHTML = sections[index];
+    el.setAttribute("id", sections[index]);
+    el.setAttribute("class", "navItem");
+    const firstListItemElement = document.getElementsByClassName("navItem")[0];
+    firstListItemElement?.classList.add("active");
+    unorderList.appendChild(el);
+    ScrolltoElement();
+  }
+};
 const ScrolltoElement = () => {
   const navItems = document.querySelectorAll(".navItem");
   navItems.forEach((el) => {
@@ -22,35 +51,6 @@ const ScrolltoElement = () => {
       });
     });
   });
-};
-const createNavbar = () => {
-  const navbar = document.createElement("nav");
-  document.body.append(navbar);
-  const unorderList = document.createElement("ul");
-  navbar.appendChild(unorderList);
-  for (let index = 0; index < navItemsArray.length; index++) {
-    const el = document.createElement("li");
-    el.innerHTML = navItemsArray[index];
-    el.setAttribute("id", navItemsArray[index]);
-    el.setAttribute("class", "navItem");
-    const firstListItemElement = document.getElementsByClassName("navItem")[0];
-    firstListItemElement?.classList.add("active");
-    unorderList.appendChild(el);
-    ScrolltoElement();
-  }
-};
-const createSections = () => {
-  const mainContainer = document.createElement("div");
-  document.body.append(mainContainer);
-  for (let index = 0; index < navItemsArray.length; index++) {
-    const sectionel = document.createElement("section");
-    mainContainer.appendChild(sectionel);
-    sectionel.innerHTML = navItemsArray[index];
-    const bodyHeight = window.innerHeight;
-    sectionel.style.height = `${bodyHeight - 100}px`;
-    sectionel.setAttribute("class", "section");
-    sectionel.setAttribute("data-scroll", navItemsArray[index]);
-  }
 };
 /**
  * function check if the section In viewport add to the navItem which matches same index active class
@@ -86,11 +86,9 @@ const checkPageYoffSetToAddclassFixed = () => {
   // console.log(element.style)
   const elementOffset = document.querySelector("nav").offsetHeight;
   if (window.scrollY > 50) {
-    console.log("here is fixed");
     element.classList.add("fixed");
     document.body.style.paddingTop = elementOffset + "px";
   } else {
-    console.log("here is not fixed");
     element.classList.remove("fixed");
     document.body.style.paddingTop = "0";
   }
@@ -100,8 +98,8 @@ const checkPageYoffSetToAddclassFixed = () => {
  * @event load => create the navbar and the navitems
  */
 window.addEventListener("load", () => {
-  createNavbar();
   createSections();
+  createNavbar();
 });
 /**
  * @event scroll => toggle between the fixed class on the navbar to change the style of it
