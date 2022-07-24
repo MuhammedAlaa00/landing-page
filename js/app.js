@@ -16,7 +16,7 @@ const createSections = () => {
     sectionel.innerHTML = sections[index];
     const bodyHeight = window.innerHeight;
     sectionel.style.height = `${bodyHeight}px`;
-    sectionel.setAttribute("class", "section");
+    sectionel.setAttribute("class", 'section');
     sectionel.setAttribute("data-scroll", sections[index]);
   }
 };

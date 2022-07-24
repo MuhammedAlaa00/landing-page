@@ -20,7 +20,7 @@ nav {
   transition: all 0.4s ease-in-out 0.1s;
   width: 100%;
   left: 0;
-  top: 0;
+  top: 0 ;
   height: 90px;
   display: flex;
   flex-wrap: wrap;
